@@ -30,7 +30,7 @@ class ShadowEpochMatcher(RepairTraceMatcher):
         prevN=self.prev_neighbors[u]
         prevS=self.prev_status[u]
         if prevN is None:
-            r_changed=0; added=len(current_N); removed=0
+            r_changed=0; added=0; removed=0
         else:
             common=current_N & prevN
             r_changed=sum((self.mate[v]<0)!=prevS[v] for v in common)
