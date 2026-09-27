@@ -1,0 +1,2 @@
+dataset,updates,repair_events,vertices_repaired,repeated_vertices,repeated_fraction,oracle_indexable_vertices,oracle_indexable_fraction,total_scan_work,scan_work_on_oracle_indexable,oracle_indexable_work_fraction
+SNAP_AS_CAIDA_122,542194,40373,14901,7355,0.49359,673,0.04516,72544,6035,0.08319
