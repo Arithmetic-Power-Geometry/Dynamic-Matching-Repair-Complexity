@@ -1,0 +1,4 @@
+dataset,updates,insertions,deletions,algorithm,total_work,p50_work,p95_work,p99_work,max_work,recourse,matching_size,maximal
+KONECT_Dynamic_Simple_Wiki,1514719,1106716,408003,scan,204572,0,0,4,292,87991,27533,1
+KONECT_Dynamic_Simple_Wiki,1514719,1106716,408003,eager,1312908,0,0,21,2456,88588,27508,1
+KONECT_Dynamic_Simple_Wiki,1514719,1106716,408003,heavy_light_T316,518440,0,0,6,317,87991,27533,1
