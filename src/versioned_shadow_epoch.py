@@ -18,26 +18,14 @@ class VersionedShadowEpochMatcher(RepairTraceMatcher):
         self.prev_neighbors=[None]*G.n
         self.epoch_trace=[]
 
-    def _match(self,u,v):
-        old_u=self.mate[u]<0; old_v=self.mate[v]<0
-        super()._match(u,v)
-        if old_u: self.status_version[u]+=1
-        if old_v: self.status_version[v]+=1
-
-    def _unmatch(self,u,v):
-        old_u=self.mate[u]<0; old_v=self.mate[v]<0
-        super()._unmatch(u,v)
-        if not old_u: self.status_version[u]+=1
-        if not old_v: self.status_version[v]+=1
-
     def find_free_neighbor(self,u):
         current_N=set(self.G.adj[u])
-        prevN=self.prev_neighbors[u]; prevV=self.prev_versions[u]
+        prevN=self.prev_neighbors[u]; prevF=self.prev_free[u]
         if prevN is None:
             r_changed=0; added=0; removed=0
         else:
             common=current_N & prevN
-            r_changed=sum(self.status_version[v]!=prevV[v] for v in common)
+            r_changed=sum((self.mate[v]<0)!=prevF[v] for v in common)
             added=len(current_N-prevN); removed=len(prevN-current_N)
         before=self.metrics.probes
         ans=super().find_free_neighbor(u)
@@ -47,5 +35,5 @@ class VersionedShadowEpochMatcher(RepairTraceMatcher):
             neighbors_removed=removed,changed_plus_churn=r_changed+added+removed,
             scan_intensity=(D/d if d else 0.0)))
         self.prev_neighbors[u]=current_N
-        self.prev_versions[u]={v:self.status_version[v] for v in current_N}
+        self.prev_free[u]={v:(self.mate[v]<0) for v in current_N}
         return ans
