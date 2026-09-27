@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - ".github/workflows/benchmark.yml"
       - "src/**"
       - "experiments/**"
       - "artifacts/**"
