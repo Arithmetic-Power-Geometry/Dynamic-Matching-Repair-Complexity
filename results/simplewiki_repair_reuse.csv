@@ -1,0 +1,2 @@
+dataset,updates,repair_events,vertices_repaired,repeated_vertices,repeated_fraction,oracle_indexable_vertices,oracle_indexable_fraction,total_scan_work,scan_work_on_oracle_indexable,oracle_indexable_work_fraction
+KONECT_Dynamic_Simple_Wiki,1514719,59780,39901,12218,0.30621,3412,0.08551,204572,36343,0.17765
