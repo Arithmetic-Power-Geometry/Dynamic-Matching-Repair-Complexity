@@ -1,0 +1,17 @@
+family,n,algorithm,time_s,work,median_work,p95_work,max_work,recourse,maximal
+hub_repair_stress,128,recompute,0.081058,669000,1115,1116,1116,710,True
+hub_repair_stress,128,scan,0.037155,4780,4,8,127,600,True
+hub_repair_stress,128,eager,0.037190,10760,10,129,129,600,True
+hub_repair_stress,128,heavy_light,0.036818,6960,8,16,16,600,True
+hub_repair_stress,256,recompute,0.155557,1360200,2267,2268,2268,666,True
+hub_repair_stress,256,scan,0.072156,5364,4,8,255,600,True
+hub_repair_stress,256,eager,0.077706,11928,10,10,257,600,True
+hub_repair_stress,256,heavy_light,0.074448,7056,8,16,16,600,True
+hub_repair_stress,512,recompute,0.334041,2742600,4571,4572,4572,644,True
+hub_repair_stress,512,scan,0.153413,6424,4,8,511,600,True
+hub_repair_stress,512,eager,0.156840,14048,10,10,513,600,True
+hub_repair_stress,512,heavy_light,0.152646,7104,8,16,16,600,True
+hub_repair_stress,1024,recompute,0.688458,5507400,9179,9180,9180,622,True
+hub_repair_stress,1024,scan,0.316165,6460,4,8,1023,600,True
+hub_repair_stress,1024,eager,0.320488,14120,10,10,1025,600,True
+hub_repair_stress,1024,heavy_light,0.309194,7152,8,16,16,600,True
