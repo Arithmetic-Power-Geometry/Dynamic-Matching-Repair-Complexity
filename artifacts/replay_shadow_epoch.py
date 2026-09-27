@@ -24,13 +24,13 @@ with open(a.stream,newline="") as f:
         elif op in {"-1","-","delete","remove"}: op="remove"
         else: raise ValueError("unknown op "+op)
         u,v=nid(r["u"]),nid(r["v"])
-        if u!=v: ops.append((op,u,v))
+        if u!=v: ops.append((op,u,v,r.get("phase","dynamic").strip().lower()))
 G=DynamicGraph(len(ids)); M=ShadowEpochMatcher(G)
 for op,u,v in ops: M.update(op,u,v)
 fields=["step","vertex","degree","discovery","found","r_changed_common",
         "neighbors_added","neighbors_removed","changed_plus_churn","scan_intensity"]
 with open(a.out,"w",newline="") as f:
     w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(M.epoch_trace)
-print("nodes",len(ids),"updates",len(ops),"repair_events",len(M.epoch_trace),
+print("nodes",len(ids),"updates",len(dynamic) if initial else len(ops),"repair_events",len(M.epoch_trace),
       "probes",M.metrics.probes,"recourse",M.metrics.recourse,
       "matching_size",M.matching_size(),"maximal",int(M.is_maximal()))
