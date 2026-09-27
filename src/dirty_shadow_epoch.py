@@ -74,16 +74,21 @@ class DirtyShadowEpochMatcher(RepairTraceMatcher):
             found=int(ans>=0),r_changed_common=r_changed,neighbors_added=added,
             neighbors_removed=removed,changed_plus_churn=r_changed+added+removed,
             scan_intensity=(D/d if d else 0.0)))
-        # Advance baseline only on dirty coordinates; first observation initializes once.
+        # Snapshot semantics use the state *after* discovery returns but before
+        # repair_vertex matches u to the returned witness. Advance all coordinates
+        # currently known dirty to that endpoint; changes caused later by _match(u,ans)
+        # will be re-added by _status_changed and remain dirty for the next epoch.
         if not self.seen[u]:
             self.base_members[u]=set(self.G.adj[u])
             self.base_free[u]={x:(self.mate[x]<0) for x in self.G.adj[u]}
             self.seen[u]=True
+            self.dirty[u].clear()
         else:
-            for x in list(self.dirty[u]):
+            touched=list(self.dirty[u])
+            for x in touched:
                 if x in self.G.adj[u]:
                     self.base_members[u].add(x);self.base_free[u][x]=(self.mate[x]<0)
                 else:
                     self.base_members[u].discard(x);self.base_free[u].pop(x,None)
-            self.dirty[u].clear()
+                self.dirty[u].discard(x)
         return ans
