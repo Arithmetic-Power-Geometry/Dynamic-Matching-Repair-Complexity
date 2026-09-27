@@ -38,15 +38,24 @@ class DirtyShadowEpochMatcher(RepairTraceMatcher):
         super()._unmatch(u,v); self._status_changed(u); self._status_changed(v)
 
     def update(self,op,u,v):
-        # adjacency membership changes must be reflected for seen endpoints
+        # Preserve exact event ordering of ScanRepairMatcher while making adjacency
+        # membership changes visible to the shadow state at the correct endpoint.
+        self.step += 1
         if op=="add":
-            super().update(op,u,v)
+            self.G.add_edge(u,v)
             self._refresh_neighbor_for_center(u,v); self._refresh_neighbor_for_center(v,u)
+            if self.mate[u]<0 and self.mate[v]<0:
+                self._match(u,v); self.metrics.recourse+=1
         else:
-            was_edge=self.G.has_edge(u,v)
-            super().update(op,u,v)
-            if was_edge:
-                self._refresh_neighbor_for_center(u,v); self._refresh_neighbor_for_center(v,u)
+            if not self.G.has_edge(u,v): return
+            was=self.mate[u]==v
+            # Record the membership transition immediately after graph deletion and
+            # before any matching-state repair triggered by that deletion.
+            self.G.remove_edge(u,v)
+            self._refresh_neighbor_for_center(u,v); self._refresh_neighbor_for_center(v,u)
+            if was:
+                self._unmatch(u,v); self.metrics.recourse+=1
+                self.repair_vertex(u); self.repair_vertex(v)
 
     def find_free_neighbor(self,u):
         if not self.seen[u]:
