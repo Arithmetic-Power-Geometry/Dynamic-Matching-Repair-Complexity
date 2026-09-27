@@ -1,0 +1,35 @@
+name: benchmark
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "src/**"
+      - "experiments/**"
+      - "artifacts/**"
+      - "requirements.txt"
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python experiments/run_benchmarks.py
+      - run: python experiments/run_separation.py
+      - run: python experiments/run_threshold_sweep.py
+      - run: python experiments/run_structural_regimes.py
+      - run: python experiments/run_event_level.py
+      - run: python experiments/run_application_demo.py
+      - run: python experiments/run_communication_application.py
+      - run: python artifacts/generate_artifacts.py
+      - run: python artifacts/analyze_threshold_pareto.py
+      - run: python artifacts/analyze_event_level.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dmrc-results
+          path: |
+            results/
+            artifacts/output/
