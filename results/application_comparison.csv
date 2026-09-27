@@ -1,0 +1,5 @@
+family,n,algorithm,time_s,work,median_work,p95_work,max_work,recourse,maximal
+request_resource_repair,1000,recompute,5.047196,37498500,24999,25000,25000,38530,True
+request_resource_repair,1000,scan,2.293291,31275,0,53,63,1389,True
+request_resource_repair,1000,eager,2.419673,69522,49,99,163,1396,True
+request_resource_repair,1000,heavy_light,2.345424,33847,5,55,59,1389,True
