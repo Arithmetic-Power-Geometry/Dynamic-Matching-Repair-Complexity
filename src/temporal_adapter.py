@@ -3,7 +3,7 @@ Accepted rows: u v [timestamp] [operation].
 operation may be add/insert/1 or del/delete/remove/0.
 If operation is absent, rows are treated as timestamped interactions.
 """
-from dataclasses import dataclass
+from dataclasses import dataclass\nimport gzip
 @dataclass
 class Event:
     op:str; u:int; v:int; t:float=0.0
@@ -13,7 +13,7 @@ def read_temporal(path, delimiter=None, comment=("#","%")):
     def vid(x):
         if x not in ids: ids[x]=len(ids)
         return ids[x]
-    with open(path,encoding="utf-8") as f:
+    opener = gzip.open if path.endswith(".gz") else open\n    with opener(path,mode="rt",encoding="utf-8") as f:
         for line in f:
             s=line.strip()
             if not s or s.startswith(comment): continue
