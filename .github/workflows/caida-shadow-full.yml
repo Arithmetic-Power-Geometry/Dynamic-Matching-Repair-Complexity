@@ -9,6 +9,7 @@ on:
       - 'artifacts/analyze_discovery_profile.py'
       - 'artifacts/summarize_shadow_epoch.py'
       - 'src/shadow_epoch.py'
+      - 'src/dirty_shadow_epoch.py'
 jobs:
   caida-shadow:
     runs-on: ubuntu-latest
