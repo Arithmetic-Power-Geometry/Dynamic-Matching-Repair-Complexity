@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "purpose": "Reproducible DMRC benchmark manifest",
+  "primary_metrics": ["total_work", "median_work", "p95_work", "max_work", "recourse", "maximal"],
+  "graph_sizes": [128, 256, 512, 1024, 2048],
+  "families": ["erdos_renyi", "hub", "repair_stress", "disjoint_hubs", "shared_hubs", "regular"],
+  "applications": ["request_resource_allocation", "communication_pairing"],
+  "threshold_policy": "sweep fixed thresholds plus sqrt(n)-scaled thresholds",
+  "external_algorithms": ["neiman_solomon", "baswana_gupta_sen", "random_walk"],
+  "claim_policy": {
+    "external_runtime": "claim only after common-machine execution",
+    "asymptotic_improvement": "claim only after theorem",
+    "synthetic_application": "do not generalize as universal real-world superiority"
+  }
+}
