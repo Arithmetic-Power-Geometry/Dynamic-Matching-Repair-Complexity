@@ -1,0 +1,4 @@
+dataset,scope,raw_records,projected_updates,insertions,deletions,n_seen,algorithm,total_work,p50_work,p95_work,p99_work,max_work,recourse,matching_size,valid
+KONECT_Dynamic_NL_Wiki,first_1000000_raw_records,1000000,978945,583381,395564,112206,scan,66194,0,0,1,236,25488,1802,1
+KONECT_Dynamic_NL_Wiki,first_1000000_raw_records,1000000,978945,583381,395564,112206,eager,922549,0,0,13,3221,26026,1810,1
+KONECT_Dynamic_NL_Wiki,first_1000000_raw_records,1000000,978945,583381,395564,112206,heavy_light_T335,383848,0,0,1,512,25476,1802,1
