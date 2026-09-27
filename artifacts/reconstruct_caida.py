@@ -57,5 +57,7 @@ if got!=expected:
     raise SystemExit(f"GATE FAIL got={got} expected={expected}")
 os.makedirs(os.path.dirname(a.out) or ".",exist_ok=True)
 with open(a.out,"w",newline="") as f:
-    w=csv.writer(f);w.writerow(["op","u","v"]);w.writerows(ops)
-print("GATE PASS; wrote",len(ops),"operations including initial snapshot")
+    w=csv.writer(f);w.writerow(["op","u","v","phase"])
+    for i,(op,u,v) in enumerate(ops):
+        w.writerow([op,u,v,"initial" if i < initial else "dynamic"])
+print("GATE PASS; wrote",len(ops),"operations; initial phase marked separately")
