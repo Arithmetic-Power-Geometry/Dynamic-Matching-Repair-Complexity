@@ -1,0 +1,4 @@
+train,test,model,test_events,positive_prevalence,roc_auc,average_precision
+SimpleWiki,AS_CAIDA,degree_only,40373,0.02923,0.8509,0.1287
+SimpleWiki,AS_CAIDA,repair_count_only,40373,0.02923,0.6861,0.0559
+SimpleWiki,AS_CAIDA,history_full,40373,0.02923,0.8569,0.1431
