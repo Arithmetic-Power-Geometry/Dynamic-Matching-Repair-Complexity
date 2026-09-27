@@ -1,0 +1,10 @@
+op,u,v
+add,a,b
+add,a,c
+add,b,d
+add,c,e
+remove,a,b
+add,a,b
+remove,a,c
+remove,b,d
+remove,a,b
