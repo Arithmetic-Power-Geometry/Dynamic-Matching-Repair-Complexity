@@ -1,0 +1,19 @@
+name: real-data
+on:
+  workflow_dispatch:
+jobs:
+  college-msg:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python datasets/download_external.py college_msg
+      - run: python experiments/run_real_dataset.py datasets/external/CollegeMsg.txt.gz --mode window --window 86400 --name CollegeMsg_1day
+      - uses: actions/upload-artifact@v4
+        with:
+          name: real-collegemsg
+          path: results/real_CollegeMsg_1day_window.csv
