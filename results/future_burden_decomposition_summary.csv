@@ -1,0 +1,3 @@
+dataset,repair_events,break_even_events,break_even_rate,median_future_repairs_all,median_future_repairs_break_even,median_scan_intensity_all,median_scan_intensity_break_even,median_degree_drift_all,median_degree_drift_break_even,max_identity_error
+SimpleWiki,59780,3449,0.05770,0,3,0.0,0.38235,0.0,1.0,1.42e-14
+AS_CAIDA,40373,1180,0.02923,0,4,0.0,0.33333,0.0,1.0,7.11e-15
