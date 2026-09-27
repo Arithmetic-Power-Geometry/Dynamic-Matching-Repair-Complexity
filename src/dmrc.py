@@ -141,3 +141,44 @@ class HeavyLightMatcher(ScanRepairMatcher):
             self.metrics.probes += 1
             if self.mate[v]<0:return v
         return -1
+    def _reclassify(self,x):
+        new_heavy=len(self.G.adj[x])>self.T
+        if new_heavy==self.heavy[x]: return
+        # Building or discarding an exact heavy summary is real maintenance work.
+        self.metrics.propagation += len(self.G.adj[x])
+        self.heavy[x]=new_heavy
+        if new_heavy:
+            self.hfree[x]={y for y in self.G.adj[x] if self.free[y]}
+        else:
+            self.hfree.pop(x,None)
+    def update(self,op,u,v):
+        if op=="add":
+            existed=self.G.has_edge(u,v)
+            self.G.add_edge(u,v)
+            if not existed:
+                self._reclassify(u); self._reclassify(v)
+                if self.heavy[u] and self.free[v]: self.hfree[u].add(v)
+                if self.heavy[v] and self.free[u]: self.hfree[v].add(u)
+            if self.mate[u]<0 and self.mate[v]<0:
+                self._match(u,v); self.metrics.recourse+=1
+        else:
+            if not self.G.has_edge(u,v): return
+            was=self.mate[u]==v
+            if self.heavy[u]: self.hfree[u].discard(v)
+            if self.heavy[v]: self.hfree[v].discard(u)
+            self.G.remove_edge(u,v)
+            self._reclassify(u); self._reclassify(v)
+            if was:
+                self._unmatch(u,v); self.metrics.recourse+=1
+                self.repair_vertex(u); self.repair_vertex(v)
+    def validate_invariants(self):
+        for u,v in enumerate(self.mate):
+            if v>=0:
+                if v>=self.G.n or self.mate[v]!=u or not self.G.has_edge(u,v): return False
+        for u in range(self.G.n):
+            if self.heavy[u] != (len(self.G.adj[u])>self.T): return False
+            if self.heavy[u]:
+                expected={v for v in self.G.adj[u] if self.mate[v]<0}
+                if self.hfree.get(u,set()) != expected: return False
+        return self.is_maximal()
+
