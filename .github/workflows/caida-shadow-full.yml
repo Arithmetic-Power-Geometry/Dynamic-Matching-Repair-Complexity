@@ -1,6 +1,14 @@
 name: CAIDA Shadow Full Replay
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/caida-shadow-full.yml'
+      - 'artifacts/reconstruct_caida.py'
+      - 'artifacts/replay_shadow_epoch.py'
+      - 'artifacts/analyze_discovery_profile.py'
+      - 'artifacts/summarize_shadow_epoch.py'
+      - 'src/shadow_epoch.py'
 jobs:
   caida-shadow:
     runs-on: ubuntu-latest
