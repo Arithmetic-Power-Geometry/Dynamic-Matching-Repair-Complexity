@@ -182,3 +182,75 @@ class HeavyLightMatcher(ScanRepairMatcher):
                 if self.hfree.get(u,set()) != expected: return False
         return self.is_maximal()
 
+
+
+class AdaptiveDebtMatcher(ScanRepairMatcher):
+    """Scan by default; activate an exact free-neighbor index only after observed
+    scan debt pays its construction cost. All index construction/maintenance
+    work is charged to propagation. No future information is used."""
+    def __init__(self,G,build_factor=1.0,retire_factor=2.0):
+        super().__init__(G)
+        self.free=[True]*G.n
+        self.indexed=[False]*G.n
+        self.ifree={}
+        self.debt=[0]*G.n
+        self.maint=[0]*G.n
+        self.build_factor=build_factor
+        self.retire_factor=retire_factor
+    def _build(self,u):
+        if self.indexed[u]: return
+        self.metrics.propagation += len(self.G.adj[u])
+        self.ifree[u]={v for v in self.G.adj[u] if self.mate[v]<0}
+        self.indexed[u]=True; self.debt[u]=0; self.maint[u]=0
+    def _retire(self,u):
+        if not self.indexed[u]: return
+        self.indexed[u]=False; self.ifree.pop(u,None); self.debt[u]=0; self.maint[u]=0
+    def _set_free(self,x,state):
+        if self.free[x]==state:return
+        self.free[x]=state
+        for y in self.G.adj[x]:
+            if self.indexed[y]:
+                self.metrics.propagation += 1; self.maint[y]+=1
+                if state:self.ifree[y].add(x)
+                else:self.ifree[y].discard(x)
+                if self.maint[y] > self.retire_factor*max(1,len(self.G.adj[y])):
+                    self._retire(y)
+    def _match(self,u,v):
+        self._set_free(u,False);self._set_free(v,False);self.mate[u]=v;self.mate[v]=u
+    def _unmatch(self,u,v):
+        self.mate[u]=self.mate[v]=-1;self._set_free(u,True);self._set_free(v,True)
+    def find_free_neighbor(self,u):
+        if self.indexed[u]:
+            self.metrics.probes+=1
+            return next(iter(self.ifree[u]),-1)
+        before=self.metrics.probes
+        ans=super().find_free_neighbor(u)
+        spent=self.metrics.probes-before
+        self.debt[u]+=spent
+        if len(self.G.adj[u]) and self.debt[u] >= self.build_factor*len(self.G.adj[u]):
+            self._build(u)
+        return ans
+    def update(self,op,u,v):
+        if op=="add":
+            existed=self.G.has_edge(u,v);self.G.add_edge(u,v)
+            if not existed:
+                if self.indexed[u] and self.free[v]:self.ifree[u].add(v)
+                if self.indexed[v] and self.free[u]:self.ifree[v].add(u)
+            if self.mate[u]<0 and self.mate[v]<0:
+                self._match(u,v);self.metrics.recourse+=1
+        else:
+            if not self.G.has_edge(u,v):return
+            was=self.mate[u]==v
+            if self.indexed[u]:self.ifree[u].discard(v)
+            if self.indexed[v]:self.ifree[v].discard(u)
+            self.G.remove_edge(u,v)
+            if was:
+                self._unmatch(u,v);self.metrics.recourse+=1
+                self.repair_vertex(u);self.repair_vertex(v)
+    def validate_invariants(self):
+        for u,v in enumerate(self.mate):
+            if v>=0 and (self.mate[v]!=u or not self.G.has_edge(u,v)):return False
+        for u in range(self.G.n):
+            if self.indexed[u]:
+                if self.ifree[u] != {v for v in self.G.adj[u] if self.mate[v]<0}:return False
+        return self.is_maximal()
