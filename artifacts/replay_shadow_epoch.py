@@ -6,7 +6,7 @@ Node IDs may be arbitrary strings; they are remapped deterministically by first 
 import csv,argparse,sys,os
 sys.path.insert(0,os.path.join(os.path.dirname(__file__),"..","src"))
 from dmrc import DynamicGraph
-from shadow_epoch import ShadowEpochMatcher
+from dirty_shadow_epoch import DirtyShadowEpochMatcher
 
 p=argparse.ArgumentParser()
 p.add_argument("stream")
@@ -25,7 +25,7 @@ with open(a.stream,newline="") as f:
         else: raise ValueError("unknown op "+op)
         u,v=nid(r["u"]),nid(r["v"])
         if u!=v: ops.append((op,u,v,r.get("phase","dynamic").strip().lower()))
-G=DynamicGraph(len(ids)); M=ShadowEpochMatcher(G)
+G=DynamicGraph(len(ids)); M=DirtyShadowEpochMatcher(G)
 for op,u,v in ops: M.update(op,u,v)
 fields=["step","vertex","degree","discovery","found","r_changed_common",
         "neighbors_added","neighbors_removed","changed_plus_churn","scan_intensity"]
