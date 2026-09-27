@@ -1,0 +1,19 @@
+name: Dirty Shadow Differential Gate
+on:
+  push:
+    paths:
+      - 'src/dirty_shadow_epoch.py'
+      - 'src/shadow_epoch.py'
+      - 'experiments/test_dirty_shadow.py'
+      - '.github/workflows/dirty-shadow-gate.yml'
+  workflow_dispatch:
+jobs:
+  differential:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact differential audit
+        run: python experiments/test_dirty_shadow.py
