@@ -1,0 +1,20 @@
+metric,value
+trajectory_initialization,source-file-order greedy
+repair_events,54070
+total_discovery,74407
+max_discovery,49
+p99_discovery,9
+status_change_event_fraction,0.0331422230
+adjacency_churn_event_fraction,0.4972073238
+any_change_event_fraction,0.4985389310
+spearman_D_degree,0.8979711511
+spearman_D_status_change,0.1414856774
+spearman_D_adjacency_churn,0.3499620961
+spearman_D_total_change,0.3516546632
+residual_spearman_status_after_degree,-0.1560799814
+residual_spearman_adjacency_churn_after_degree,0.0291663980
+residual_spearman_total_change_after_degree,0.0287210026
+temporal_R2_degree,0.8041271709
+temporal_R2_degree_plus_changes,0.8269527028
+temporal_fullscan_AUC_degree,0.9358477674
+temporal_fullscan_AUC_degree_plus_changes,0.9496853024
