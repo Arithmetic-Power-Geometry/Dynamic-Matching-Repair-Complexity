@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software or its accompanying research artifacts, please cite the work below."
+title: "Repair Complexity in Fully Dynamic Maximal Matching: Discovery–Propagation Tradeoffs, Conditional Hardness, and Reproducible Real-Data Evidence"
+type: software
+authors:
+  - family-names: "Akhtar"
+    given-names: "Mohammad Amir Khusru"
+    orcid: "https://orcid.org/0000-0002-3432-4199"
+affiliation: "Usha Martin University, Ranchi, India"
+version: "V1"
+date-released: "2026-09-27"
+repository-code: "https://github.com/Arithmetic-Power-Geometry/Dynamic-Matching-Repair-Complexity"
+doi: "10.5281/zenodo.22997728"
+url: "https://doi.org/10.5281/zenodo.22997728"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Akhtar"
+      given-names: "Mohammad Amir Khusru"
+      orcid: "https://orcid.org/0000-0002-3432-4199"
+  title: "Repair Complexity in Fully Dynamic Maximal Matching: Discovery–Propagation Tradeoffs, Conditional Hardness, and Reproducible Real-Data Evidence"
+  year: 2026
+  doi: "10.5281/zenodo.22997728"
+  url: "https://doi.org/10.5281/zenodo.22997728"

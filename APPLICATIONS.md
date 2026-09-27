@@ -1,13 +1,17 @@
-# Applications
+# Illustrative Application Domains
 
-## 1. Dynamic request-resource allocation
-Vertices represent requests and resources; compatibility is an edge. Edge insertion/deletion models changing eligibility, capacity compatibility, locality, or service availability. A maximal matching provides a locally saturated conflict-free allocation, not necessarily a maximum-cardinality or utility-optimal allocation.
+The paper studies repair complexity in fully dynamic maximal matching. The following domains are **illustrative matching interpretations**, not claims that every domain was empirically evaluated.
 
-## 2. Communication link pairing
-Vertices represent endpoints eligible for pairwise communication. Link changes represent changing reachability/interference constraints. Repair-tail latency matters when a high-degree endpoint loses its current pair and a replacement must be found quickly.
+## Ride allocation
 
-## Why repair-tail latency matters
-The experimental hypothesis is not that every update becomes cheaper. It is that witness summaries can cap expensive neighborhood scans around high-degree vertices, trading small background propagation cost for lower extreme repair cost.
+Passengers and drivers can be represented as two vertex classes, feasible assignments as edges, and active assignments as matching edges. When an assigned driver becomes unavailable, the passenger requires repair: the system can either maintain availability information continuously or discover a replacement when needed.
 
-## Non-claims
-This prototype does not model fairness, weights, capacities greater than one, kidney-exchange cycles, or globally optimal assignments.
+## Request–resource assignment
+
+The repository includes an application-style request/resource workload. Requests and resources form the two sides of a matching instance, while changing compatibility edges trigger reassignment and repair.
+
+## Other interpretations
+
+Task–server assignment, communication-link pairing, recommendation/pairing, and changing resource allocation can exhibit the same abstract repair question when feasible pairings change over time.
+
+These examples motivate the information-allocation perspective; they do not extend the paper's theorems beyond their stated models.

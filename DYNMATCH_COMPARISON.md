@@ -1,19 +1,9 @@
-# DynMatch interoperability
+# Relation to Existing Dynamic Matching Work
 
-The repository can export its repair-stress and application workloads into the exact input format documented by DynMatch.
+This repository does not claim a new unrestricted update-time frontier for fully dynamic maximal matching.
 
-Generate streams:
+The paper's contribution is repair-centered: it separates information propagated before repair from information discovered during repair, proves a restricted exact-summary tradeoff, gives a scoped one-shot conditional-hardness reduction, derives an exact future-burden identity, and tests these ideas on reproducible workloads.
 
-```bash
-python experiments/export_dynmatch.py
-```
+The practical experiments should therefore be read as characterization of repair/maintenance regimes rather than as a replacement for state-of-the-art unrestricted dynamic matching algorithms.
 
-Build DynMatch according to its upstream README, then run the same stream with established implementations, for example:
-
-```bash
-dynmatch datasets/dynmatch/hub_repair_n1024.graph --algorithm=neimansolomon
-dynmatch datasets/dynmatch/hub_repair_n1024.graph --algorithm=baswanaguptasen -seed=1
-dynmatch datasets/dynmatch/hub_repair_n1024.graph --algorithm=randomwalk -seed=1
-```
-
-Use multiple seeds for randomized algorithms. Record wall-clock time, maintained matching size, and any statistics exposed by DynMatch. Do not compare its native C++ wall-clock time directly to Python timing as an algorithmic complexity claim; use common-machine timing as an engineering comparison and DMRC's instrumented work as the mechanism analysis.
+For the literature context and formal citations, use the accompanying paper.
