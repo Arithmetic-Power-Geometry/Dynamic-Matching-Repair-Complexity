@@ -1,0 +1,17 @@
+name: Reusable Trigger Audit
+on:
+  push:
+    paths:
+      - 'experiments/test_reusable_trigger.py'
+      - '.github/workflows/reusable-trigger-audit.yml'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exhaustive reusable-trigger comparison
+        run: python experiments/test_reusable_trigger.py
